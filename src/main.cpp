@@ -27,6 +27,7 @@
 #include <sstream>
 #include <wordexp.h>
 #include "wcm.hpp"
+#include <locale.h>
 
 int load_config_files(WCM *wcm)
 {
