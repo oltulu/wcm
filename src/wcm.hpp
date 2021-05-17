@@ -32,6 +32,7 @@
 #include <wayfire/config/file.hpp>
 #include <gdk/gdkwayland.h>
 #include <wlr-input-inhibitor-unstable-v1-client-protocol.h>
+#include <locale.h>
 
 enum plugin_type
 {
