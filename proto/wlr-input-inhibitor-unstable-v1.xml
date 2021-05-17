@@ -59,7 +59,7 @@
     </description>
 
     <request name="destroy" type="destructor">
-      <description summary="destroy the input inhibitor object">
+      <description summary="giriş engelleyici nesneyi yok et">
         Destroy the inhibitor and allow other clients to receive input.
       </description>
     </request>
