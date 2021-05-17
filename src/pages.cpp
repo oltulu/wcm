@@ -219,25 +219,25 @@ static void position_plugin_buttons(WCM *wcm)
 
     for (auto& p : wcm->displayed_plugins)
     {
-        if (std::string(p->category) == "General")
+        if (std::string(p->category) == "Genel")
         {
             get_button_position(p, &x[0], &y[0]);
-        } else if (std::string(p->category) == "Accessibility")
+        } else if (std::string(p->category) == "Erişilebilirlik")
         {
             get_button_position(p, &x[1], &y[1]);
-        } else if (std::string(p->category) == "Desktop")
+        } else if (std::string(p->category) == "Masaüstü")
         {
             get_button_position(p, &x[2], &y[2]);
         } else if (std::string(p->category) == "Shell")
         {
             get_button_position(p, &x[3], &y[3]);
-        } else if (std::string(p->category) == "Effects")
+        } else if (std::string(p->category) == "Efektler")
         {
             get_button_position(p, &x[4], &y[4]);
-        } else if (std::string(p->category) == "Window Management")
+        } else if (std::string(p->category) == "Pencere Yönetimi")
         {
             get_button_position(p, &x[5], &y[5]);
-        } else if (std::string(p->category) == "Utility")
+        } else if (std::string(p->category) == "Araçlar")
         {
             get_button_position(p, &x[6], &y[6]);
         } else
@@ -955,7 +955,7 @@ static gboolean spawn_color_chooser_cb(GtkWidget *widget,
     wf::color_t c;
 
     GtkWidget *chooser =
-        gtk_color_chooser_dialog_new("Pick a Color",
+        gtk_color_chooser_dialog_new("Bir renk seç",
             GTK_WINDOW(o->plugin->wcm->window));
     gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(widget), &color);
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), &color);
@@ -1430,7 +1430,7 @@ static void write_binding_option_check(Option *o, std::string name)
     GtkWidget *button_cancel = gtk_button_new_with_label("Cancel");
     GtkWidget *button_ok     = gtk_button_new_with_label("Ok");
     sprintf(buf,
-        "Attempting to bind \"%s\" without modifier.\nYou will be unable to use this key/button for anything else!\nAre you sure?",
+        "\"%s\" değiştiricisiz bağlanmaya çalışılıyor.\nBu butonu başka hiçbir şey için kullanamayacaksınız!!\nEmin misiniz?",
         name.c_str());
     GtkWidget *label = gtk_label_new(buf);
     gtk_widget_set_margin_top(layout, 10);
@@ -1459,7 +1459,7 @@ static bool lock_input(WCM *wcm)
 {
     if (!wcm->inhibitor_manager)
     {
-        std::cerr << "Compositor does not support " <<
+        std::cerr << "Compositor desteklemiyor" <<
             "wlr_input_inhibit_manager_v1!" << std::endl;
 
         return false;
@@ -1613,7 +1613,7 @@ bool grab_binding_key_cb(GtkWidget *widget,
 
     if (text.empty())
     {
-        text = "(No modifiers pressed)";
+        text = "(Değiştiriciye basılmadı)";
     }
 
     gtk_label_set_text(GTK_LABEL(o->label_widget), text.c_str());
@@ -1655,7 +1655,7 @@ static gboolean key_grab_button_cb(GtkWidget *widget,
 
     o->mod_mask = (mod_type)0;
     GtkWidget *grab_binding_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(grab_binding_window), "Waiting for Binding");
+    gtk_window_set_title(GTK_WINDOW(grab_binding_window), "Bağlanma bekleniyor");
     g_signal_connect(grab_binding_window, "button-press-event",
         G_CALLBACK(grab_binding_button_cb), o);
     g_signal_connect(grab_binding_window, "key-press-event",
@@ -1666,7 +1666,7 @@ static gboolean key_grab_button_cb(GtkWidget *widget,
         G_CALLBACK(window_deleted_cb), o);
 
     GtkWidget *layout = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    GtkWidget *label  = gtk_label_new("(No modifiers pressed)");
+    GtkWidget *label  = gtk_label_new("(Değiştiriciye basılmadı)");
     gtk_box_pack_start(GTK_BOX(layout), label, true, true, 0);
     gtk_container_add(GTK_CONTAINER(grab_binding_window), layout);
     o->label_widget = label;
@@ -1773,14 +1773,14 @@ static void write_option_check(GtkWidget *widget,
     if (!strncmp(text, "BTN", 3) || !strncmp(text, "KEY", 3))
     {
         GtkWidget *confirm_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-        gtk_window_set_title(GTK_WINDOW(confirm_window), "Confirm Binding");
+        gtk_window_set_title(GTK_WINDOW(confirm_window), "Bağlamayı Onayla");
 
         GtkWidget *layout = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         GtkWidget *button_layout = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         GtkWidget *button_cancel = gtk_button_new_with_label("Cancel");
         GtkWidget *button_ok     = gtk_button_new_with_label("Ok");
         sprintf(buf,
-            "Attempting to bind \"%s\" without modifier.\nYou will be unable to use this key/button for anything else!\nAre you sure?",
+            "\"%s\" değiştiricisiz bağlanmaya çalışılıyor.\nBu butonu başka hiçbir şey için kullanamayacaksınız!\nEmin misiniz?",
             text);
         GtkWidget *label = gtk_label_new(buf);
         gtk_widget_set_margin_top(layout, 10);
@@ -1855,12 +1855,12 @@ static gboolean binding_edit_button_cb(GtkWidget *widget,
     option = section->get_option_or(o->name);
 
     GtkWidget *edit_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(edit_window), "Edit Binding");
+    gtk_window_set_title(GTK_WINDOW(edit_window), "Bağlamayı Düzenle");
 
     GtkWidget *layout = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     GtkWidget *button_layout = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    GtkWidget *button_cancel = gtk_button_new_with_label("Cancel");
-    GtkWidget *button_ok     = gtk_button_new_with_label("Ok");
+    GtkWidget *button_cancel = gtk_button_new_with_label("İptal");
+    GtkWidget *button_ok     = gtk_button_new_with_label("Tamam");
     GtkWidget *entry = gtk_entry_new();
     gtk_widget_set_margin_top(layout, 10);
     gtk_widget_set_margin_bottom(layout, 10);
@@ -1906,12 +1906,12 @@ static gboolean directory_chooser_button_cb(GtkWidget *widget,
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
     gint res;
 
-    dialog = gtk_file_chooser_dialog_new("Open Directory",
+    dialog = gtk_file_chooser_dialog_new("Sözlük Aç",
         GTK_WINDOW(window),
         action,
-        "_Cancel",
+        "_İptal",
         GTK_RESPONSE_CANCEL,
-        "_Open",
+        "_Aç",
         GTK_RESPONSE_ACCEPT,
         nullptr);
 
@@ -1947,12 +1947,12 @@ static gboolean file_chooser_button_cb(GtkWidget *widget,
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
     gint res;
 
-    dialog = gtk_file_chooser_dialog_new("Open File",
+    dialog = gtk_file_chooser_dialog_new("Dosya Aç",
         GTK_WINDOW(window),
         action,
-        "_Cancel",
+        "_İptal",
         GTK_RESPONSE_CANCEL,
-        "_Open",
+        "_Aç",
         GTK_RESPONSE_ACCEPT,
         nullptr);
 
@@ -2119,7 +2119,7 @@ static void setup_command_list(GtkWidget *widget, Option *o)
             {
                 GtkWidget *edit_button = gtk_button_new_from_icon_name("gtk-edit",
                     GTK_ICON_SIZE_BUTTON);
-                gtk_widget_set_tooltip_text(edit_button, "Edit binding");
+                gtk_widget_set_tooltip_text(edit_button, "Bağlamayı düzenle");
                 g_signal_connect(edit_button, "button-release-event",
                     G_CALLBACK(binding_edit_button_cb), dyn_opt);
                 g_signal_connect(edit_button, "key-press-event",
@@ -2155,7 +2155,7 @@ static void setup_command_list(GtkWidget *widget, Option *o)
                 remove_button = gtk_button_new();
                 gtk_widget_set_margin_start(remove_button, 10);
                 gtk_widget_set_margin_end(remove_button, 10);
-                gtk_widget_set_tooltip_text(remove_button, "Remove from list");
+                gtk_widget_set_tooltip_text(remove_button, "Listeden sil");
                 g_signal_connect(remove_button, "button-release-event",
                     G_CALLBACK(remove_command_item_button_cb), dyn_opt);
                 g_signal_connect(remove_button, "key-press-event",
@@ -2207,7 +2207,7 @@ static void setup_command_list(GtkWidget *widget, Option *o)
     gtk_widget_set_margin_bottom(add_button, 10);
     gtk_widget_set_margin_start(add_button, 10);
     gtk_widget_set_margin_end(add_button, 10);
-    gtk_widget_set_tooltip_text(add_button, "Add new command");
+    gtk_widget_set_tooltip_text(add_button, "Yeni komut ekle");
     g_signal_connect(add_button, "button-release-event",
         G_CALLBACK(add_command_item_button_cb), o);
     g_signal_connect(add_button, "key-press-event",
@@ -2282,7 +2282,7 @@ static void setup_autostart_list(GtkWidget *widget, Option *o)
         remove_button = gtk_button_new();
         gtk_widget_set_margin_start(remove_button, 10);
         gtk_widget_set_margin_end(remove_button, 10);
-        gtk_widget_set_tooltip_text(remove_button, "Remove from list");
+        gtk_widget_set_tooltip_text(remove_button, "Lisreden çıkar");
         g_signal_connect(remove_button, "button-release-event",
             G_CALLBACK(remove_autostart_item_button_cb), dyn_opt);
         g_signal_connect(remove_button, "key-press-event",
@@ -2292,7 +2292,7 @@ static void setup_autostart_list(GtkWidget *widget, Option *o)
         gtk_button_set_image(GTK_BUTTON(remove_button), list_remove_image);
         run_button = gtk_button_new();
         gtk_widget_set_margin_start(run_button, 10);
-        gtk_widget_set_tooltip_text(run_button, "Run command");
+        gtk_widget_set_tooltip_text(run_button, "Komut çalıştır");
         g_signal_connect(run_button, "button-release-event",
             G_CALLBACK(run_autostart_item_button_cb), dyn_opt);
         g_signal_connect(run_button, "key-press-event",
@@ -2306,7 +2306,7 @@ static void setup_autostart_list(GtkWidget *widget, Option *o)
         {
             GtkWidget *file_choose_button = gtk_button_new_from_icon_name(
                 "application-x-executable", GTK_ICON_SIZE_BUTTON);
-            gtk_widget_set_tooltip_text(file_choose_button, "Choose Executable");
+            gtk_widget_set_tooltip_text(file_choose_button, "Yürütülebilir dosyayı seç");
             g_signal_connect(file_choose_button, "button-release-event",
                 G_CALLBACK(file_chooser_button_cb), o);
             g_signal_connect(file_choose_button, "key-press-event",
@@ -2327,7 +2327,7 @@ static void setup_autostart_list(GtkWidget *widget, Option *o)
     gtk_widget_set_margin_bottom(add_button, 10);
     gtk_widget_set_margin_start(add_button, 10);
     gtk_widget_set_margin_end(add_button, 10);
-    gtk_widget_set_tooltip_text(add_button, "Add new command");
+    gtk_widget_set_tooltip_text(add_button, "Yeni komut ekle");
     g_signal_connect(add_button, "button-release-event",
         G_CALLBACK(add_autostart_item_button_cb), o);
     g_signal_connect(add_button, "key-press-event",
@@ -2373,7 +2373,7 @@ static void add_option_widget(GtkWidget *widget, Option *o)
         reset_button = gtk_button_new();
         gtk_widget_set_margin_start(reset_button, 10);
         gtk_widget_set_margin_end(reset_button, 10);
-        gtk_widget_set_tooltip_text(reset_button, "Reset to default");
+        gtk_widget_set_tooltip_text(reset_button, "Varsayılana dön");
         g_signal_connect(reset_button, "button-release-event",
             G_CALLBACK(reset_button_cb), o);
         g_signal_connect(reset_button, "key-press-event",
@@ -2562,7 +2562,7 @@ static void add_option_widget(GtkWidget *widget, Option *o)
             {
                 GtkWidget *file_choose_button = gtk_button_new_from_icon_name(
                     "text-x-script", GTK_ICON_SIZE_BUTTON);
-                gtk_widget_set_tooltip_text(file_choose_button, "Choose File");
+                gtk_widget_set_tooltip_text(file_choose_button, "Dosya Seç");
                 g_signal_connect(file_choose_button, "button-release-event",
                     G_CALLBACK(file_chooser_button_cb), o);
                 g_signal_connect(file_choose_button, "key-press-event",
@@ -2578,7 +2578,7 @@ static void add_option_widget(GtkWidget *widget, Option *o)
                 GtkWidget *directory_choose_button = gtk_button_new_from_icon_name(
                     "folder-open", GTK_ICON_SIZE_BUTTON);
                 gtk_widget_set_tooltip_text(directory_choose_button,
-                    "Choose Directory");
+                    "Dizin Seç");
                 g_signal_connect(directory_choose_button, "button-release-event",
                     G_CALLBACK(directory_chooser_button_cb), o);
                 g_signal_connect(directory_choose_button, "key-press-event",
@@ -2748,7 +2748,7 @@ static gboolean plugin_button_cb(GtkWidget *widget,
     {
         enable_label = gtk_label_new(nullptr);
         gtk_label_set_markup(GTK_LABEL(
-            enable_label), "<span size=\"10000\"><b>Use This Plugin</b></span>");
+            enable_label), "<span size=\"10000\"><b>Bu Eklentiyi Kullan</b></span>");
         enabled_cb = gtk_check_button_new();
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(
             enabled_cb), p->enabled ? true : false);
@@ -2763,7 +2763,7 @@ static gboolean plugin_button_cb(GtkWidget *widget,
     GtkWidget *back_layout = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *back_image  = gtk_image_new_from_icon_name("back",
         GTK_ICON_SIZE_BUTTON);
-    GtkWidget *back_label = gtk_label_new("Back");
+    GtkWidget *back_label = gtk_label_new("Geri");
     gtk_widget_set_size_request(back_layout, 70, -1);
     gtk_widget_set_margin_start(back_layout, 70);
     gtk_widget_set_margin_end(back_layout, 70);
@@ -2861,25 +2861,25 @@ static gboolean plugin_button_cb(GtkWidget *widget,
 
 static const char *get_icon_name_from_category(std::string category)
 {
-    if (category == "General")
+    if (category == "Genel")
     {
         return "preferences-system";
-    } else if (category == "Accessibility")
+    } else if (category == "Erişilebilirlik")
     {
         return "preferences-desktop-accessibility";
-    } else if (category == "Desktop")
+    } else if (category == "Masaüstü")
     {
         return "preferences-desktop";
     } else if (category == "Shell")
     {
         return "user-desktop";
-    } else if (category == "Effects")
+    } else if (category == "Efektler")
     {
         return "applications-graphics";
-    } else if (category == "Window Management")
+    } else if (category == "Pencere Yönetimi")
     {
         return "applications-office";
-    } else if (category == "Utility")
+    } else if (category == "Araçlar")
     {
         return "applications-accessories";
     } else
@@ -2968,25 +2968,25 @@ static GtkWidget *create_plugins_layout(WCM *wcm, std::vector<Plugin*> plugins)
 
     for (auto& p : plugins)
     {
-        if (std::string(p->category) == "General")
+        if (std::string(p->category) == "Genel")
         {
             add_plugin_to_category(p, &categories[0], &layout[0], &size_group);
-        } else if (std::string(p->category) == "Accessibility")
+        } else if (std::string(p->category) == "Erişilebilirlik")
         {
             add_plugin_to_category(p, &categories[1], &layout[1], &size_group);
-        } else if (std::string(p->category) == "Desktop")
+        } else if (std::string(p->category) == "Masaüstü")
         {
             add_plugin_to_category(p, &categories[2], &layout[2], &size_group);
         } else if (std::string(p->category) == "Shell")
         {
             add_plugin_to_category(p, &categories[3], &layout[3], &size_group);
-        } else if (std::string(p->category) == "Effects")
+        } else if (std::string(p->category) == "Efektler")
         {
             add_plugin_to_category(p, &categories[4], &layout[4], &size_group);
-        } else if (std::string(p->category) == "Window Management")
+        } else if (std::string(p->category) == "Pencere Yönetimi")
         {
             add_plugin_to_category(p, &categories[5], &layout[5], &size_group);
-        } else if (std::string(p->category) == "Utility")
+        } else if (std::string(p->category) == "Araçlar")
         {
             add_plugin_to_category(p, &categories[6], &layout[6], &size_group);
         } else
@@ -3122,7 +3122,7 @@ GtkWidget *create_main_layout(WCM *wcm)
     GtkWidget *filter_label = gtk_label_new(nullptr);
     g_object_set(filter_label, "margin", 10, nullptr);
     gtk_label_set_markup(GTK_LABEL(filter_label),
-        ("<span size=\"12000\"><b>" + std::string("Filter") +
+        ("<span size=\"12000\"><b>" + std::string("Filtre") +
             "</b></span>").c_str());
     gtk_box_pack_start(GTK_BOX(left_panel_layout), filter_label, false, false, 0);
 
@@ -3140,7 +3140,7 @@ GtkWidget *create_main_layout(WCM *wcm)
     GtkWidget *close_layout = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *close_image  = gtk_image_new_from_icon_name("window-close",
         GTK_ICON_SIZE_BUTTON);
-    GtkWidget *close_label = gtk_label_new("Close");
+    GtkWidget *close_label = gtk_label_new("Kapat");
     gtk_widget_set_size_request(close_layout, 70, -1);
     gtk_widget_set_margin_start(close_layout, 70);
     gtk_widget_set_margin_end(close_layout, 70);
