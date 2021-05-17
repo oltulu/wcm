@@ -88,12 +88,12 @@ static Option *create_option(xmlNode *cur_node, Plugin *p)
             o->type = OPTION_TYPE_DYNAMIC_LIST;
         } else
         {
-            printf("WARN: [%s] unknown option type: %s\n", p->name, prop);
+            printf("UYARI: [%s] bilinmeyen seçenek türü: %s\n", p->name, prop);
             o->type = (option_type) - 1;
         }
     } else
     {
-        printf("WARN: [%s] no option type found\n", p->name);
+        printf("UYARI: [%s] seçenek türü bulunamadı\n", p->name);
         o->type = (option_type) - 1;
     }
 
@@ -146,7 +146,7 @@ static Option *create_option(xmlNode *cur_node, Plugin *p)
 
                 if ((o->default_value.i < 0) && (o->default_value.i > 1))
                 {
-                    printf("WARN: [%s] unknown bool option default\n", p->name);
+                    printf("UYARI: [%s] bilinmeyen bool seçeneği varsayılanı\n", p->name);
                 }
 
                 break;
@@ -182,7 +182,7 @@ static Option *create_option(xmlNode *cur_node, Plugin *p)
 
             if ((o->type != OPTION_TYPE_INT) && (o->type != OPTION_TYPE_DOUBLE))
             {
-                printf("WARN: [%s] min defined for option type !int && !double\n",
+                printf("UYARI: [%s] min defined for option type !int && !double\n",
                     p->name);
             }
 
@@ -196,7 +196,7 @@ static Option *create_option(xmlNode *cur_node, Plugin *p)
 
             if ((o->type != OPTION_TYPE_INT) && (o->type != OPTION_TYPE_DOUBLE))
             {
-                printf("WARN: [%s] max defined for option type !int && !double\n",
+                printf("UYARI: [%s] max defined for option type !int && !double\n",
                     p->name);
             }
 
@@ -210,7 +210,7 @@ static Option *create_option(xmlNode *cur_node, Plugin *p)
 
             if (o->type != OPTION_TYPE_DOUBLE)
             {
-                printf("WARN: [%s] precision defined for option type !double\n",
+                printf("UYARI: [%s] precision defined for option type !double\n",
                     p->name);
             }
 
@@ -225,7 +225,7 @@ static Option *create_option(xmlNode *cur_node, Plugin *p)
             if ((o->type != OPTION_TYPE_STRING) &&
                 (o->type != OPTION_TYPE_DYNAMIC_LIST))
             {
-                printf("WARN: [%s] hint defined for option type !string\n", p->name);
+                printf("UYARI: [%s] hint defined for option type !string\n", p->name);
             }
 
             if (std::string((char*)node->children->content) == "file")
@@ -241,7 +241,7 @@ static Option *create_option(xmlNode *cur_node, Plugin *p)
         {
             if ((o->type != OPTION_TYPE_INT) && (o->type != OPTION_TYPE_STRING))
             {
-                printf("WARN: [%s] desc defined for option type !int && !string\n",
+                printf("UYARI: [%s] desc defined for option type !int && !string\n",
                     p->name);
             }
 
@@ -444,7 +444,7 @@ int parse_xml_files(WCM *wcm, wf::config::config_manager_t *config_manager)
             ((std::string((char*)root_element->name) == "wayfire") ||
              (std::string((char*)root_element->name) == "wf-shell")))
         {
-            printf("Loading %s plugin: %s\n", root_element->name,
+            printf("%s eklentisi yükleniyor: %s\n", root_element->name,
                 s->get_name().c_str());
             Plugin *p =
                 get_plugin_data(nullptr, nullptr, nullptr, doc, root_element);
