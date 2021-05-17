@@ -108,7 +108,7 @@ static bool init_input_inhibitor(WCM *wcm)
         gdk_display_get_default());
     if (!display)
     {
-        std::cerr << "Failed to acquire wl_display for input inhibitor" << std::endl;
+        std::cerr << "Giriş engelleyici için wl_display alınamadı" << std::endl;
 
         return false;
     }
@@ -116,7 +116,7 @@ static bool init_input_inhibitor(WCM *wcm)
     struct wl_registry *registry = wl_display_get_registry(display);
     if (!registry)
     {
-        std::cerr << "Failed to acquire wl_registry for input inhibitor" <<
+        std::cerr << "Giriş engelleyici için wl_registry alınamadı" <<
             std::endl;
 
         return false;
@@ -127,7 +127,7 @@ static bool init_input_inhibitor(WCM *wcm)
     wl_display_roundtrip(display);
     if (!wcm->inhibitor_manager)
     {
-        std::cerr << "Compositor does not support " <<
+        std::cerr << "Compositor desteklemiyor " <<
             "wlr_input_inhibit_manager_v1" << std::endl;
 
         return false;
@@ -173,12 +173,12 @@ static void startup(GtkApplication *app,
 
     wcm->main_layout = create_main_layout(wcm);
 
-    gtk_window_set_title(GTK_WINDOW(window), "Wayfire Config Manager");
+    gtk_window_set_title(GTK_WINDOW(window), "Wayfire Denetim Masası");
     gtk_widget_show_all(window);
 
     if (!init_input_inhibitor(wcm))
     {
-        std::cerr << "binding grabs will not work" << std::endl;
+        std::cerr << "bağlama kepçeleri çalışmayacak" << std::endl;
     }
 }
 
