@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <wayfire/config/xml.hpp>
 #include "wcm.hpp"
+#include <locale.h>
 
 static Option *create_option(xmlNode *cur_node, Plugin *p)
 {
